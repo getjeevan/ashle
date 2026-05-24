@@ -1,0 +1,83 @@
+# Jules AI Agent Configuration
+# Define autonomous tasks and workflows for the cloud kitchen system
+
+version: "1.0"
+project: "ashle-cloud-kitchen"
+description: "Cloud kitchen management system with Jules integration"
+
+# Integration settings
+integration:
+  type: "github"
+  create_pull_requests: true
+  auto_fix_ci_failures: true
+  require_approval: true
+
+# Task definitions - Jules will work on these autonomously
+tasks:
+  # Test Coverage
+  - name: "generate-tests"
+    description: "Generate comprehensive test coverage for inventory and order modules"
+    modules:
+      - src/inventory/
+      - src/orders/
+    priority: high
+    triggers:
+      - schedule: "weekly"
+      - on_push: "src/inventory/*"
+      - on_push: "src/orders/*"
+
+  # Performance Optimization
+  - name: "optimize-queries"
+    description: "Analyze and optimize database queries for N+1 problems"
+    modules:
+      - src/api/
+      - src/database/
+    priority: high
+    triggers:
+      - schedule: "bi-weekly"
+
+  # Documentation
+  - name: "update-documentation"
+    description: "Keep API docs and code documentation up-to-date"
+    modules:
+      - src/
+    output_format: "markdown"
+    triggers:
+      - schedule: "weekly"
+      - on_push: "src/**/*.js"
+
+  # Bug Analysis
+  - name: "analyze-logs"
+    description: "Analyze error logs and suggest fixes"
+    triggers:
+      - schedule: "daily"
+
+  # Feature Development
+  - name: "analytics-dashboard"
+    description: "Build analytics module for waste tracking and profitability"
+    modules:
+      - src/analytics/
+    priority: medium
+    triggers:
+      - manual
+
+  # Performance Monitoring
+  - name: "monitor-performance"
+    description: "Monitor API response times and suggest optimizations"
+    triggers:
+      - schedule: "daily"
+
+# Output settings
+output:
+  format: "pull_request"
+  branch_prefix: "jules/"
+  labels:
+    - "ai-generated"
+    - "auto-pr"
+
+# Rules and constraints
+rules:
+  - dont_modify: ["src/payment/", "src/auth/"] # Sensitive modules
+  - require_tests: true
+  - enforce_style: "prettier"
+  - max_files_per_pr: 10

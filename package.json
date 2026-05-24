@@ -1,0 +1,24 @@
+{
+  "name": "ashle-cloud-kitchen",
+  "version": "0.1.0",
+  "description": "Cloud kitchen management system with Jules AI integration",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "node src/index.js",
+    "test": "jest",
+    "lint": "eslint src/",
+    "format": "prettier --write src/"
+  },
+  "keywords": ["cloud-kitchen", "orders", "inventory", "delivery", "jules-ai"],
+  "author": "Cloud Kitchen Team",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.0",
+    "dotenv": "^16.0.0"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0"
+  }
+}
