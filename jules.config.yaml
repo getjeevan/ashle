@@ -52,20 +52,48 @@ tasks:
     triggers:
       - schedule: "daily"
 
-  # Feature Development
-  - name: "analytics-dashboard"
-    description: "Build analytics module for waste tracking and profitability"
+  # API Documentation
+  - name: "update-api-docs"
+    description: "Keep API documentation in sync with code changes"
     modules:
-      - src/analytics/
-    priority: medium
+      - src/api/
+    output_format: "markdown"
     triggers:
-      - manual
+      - on_push: "src/**/*.js"
+      - schedule: "weekly"
 
   # Performance Monitoring
   - name: "monitor-performance"
     description: "Monitor API response times and suggest optimizations"
     triggers:
       - schedule: "daily"
+
+  # Kitchen Operations
+  - name: "optimize-kitchen-flow"
+    description: "Analyze kitchen display data and suggest prep time improvements"
+    modules:
+      - src/kitchen/
+    priority: medium
+    triggers:
+      - schedule: "bi-weekly"
+
+  # Delivery Analytics
+  - name: "analyze-delivery-performance"
+    description: "Analyze delivery metrics and suggest partner/routing improvements"
+    modules:
+      - src/delivery/
+    priority: medium
+    triggers:
+      - schedule: "weekly"
+
+  # Analytics Insights
+  - name: "generate-business-insights"
+    description: "Generate insights from analytics data on waste, profitability, trends"
+    modules:
+      - src/analytics/
+    priority: medium
+    triggers:
+      - schedule: "weekly"
 
 # Output settings
 output:

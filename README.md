@@ -114,27 +114,51 @@ Jules is already configured in `julius.config.yaml`. To customize:
 
 ## Key Features
 
-### 1. Order Management
-- Real-time order tracking across multiple brands
+### 1. Order Management 📱
+- Real-time order tracking across multiple brands (Indian, Thai, Italian)
 - Prevention of overselling with atomic inventory updates
 - Order status visibility for customers and kitchen staff
+- Automatic prep time estimation
 
-### 2. Inventory System
-- Stock level monitoring
-- Low-stock alerts
-- Automated waste tracking
-- Historical usage analytics
+### 2. Inventory System 📦
+- Stock level monitoring with low-stock alerts
+- Atomic reservations (prevents overselling even under concurrent load)
+- Automated waste tracking by item
+- Historical usage analytics and trends
+- Profitability calculation per item
 
-### 3. Kitchen Display
-- Real-time prep times
-- Order prioritization
-- Staff workload balancing
+### 3. Kitchen Display System 🍳
+- Real-time kitchen queue sorted by priority
+- Automatic order prioritization (short orders first)
+- Prep time tracking with overtime detection
+- Orders grouped by brand
+- Performance metrics (average prep time, overtime %)
 
-### 4. Analytics Dashboard
-- Daily waste metrics
-- Profitability by dish/brand
+### 4. Delivery Management 🚚
+- Smart partner assignment (auto-selects best available delivery partner)
+- Real-time delivery tracking (pending → picked up → in transit → delivered)
+- Delivery partner rating and performance tracking
+- Estimated delivery time calculation
+- Customer ratings and feedback collection
+
+### 5. Analytics Dashboard 📊
+- Daily business metrics (revenue, costs, profit, waste)
+- Multi-brand performance breakdown
+- Item-level profitability analysis
+- Waste tracking and high-waste item identification
+- Top-selling items and trends
+- Business summary for custom date ranges
 - Peak hour analysis
-- Delivery partner performance
+- Delivery partner performance metrics
+
+### 6. Jules AI Integration 🤖
+- Automatic test generation for all modules
+- Query optimization and performance analysis
+- Documentation kept in sync
+- Auto-fix for CI failures
+- Kitchen flow optimization suggestions
+- Delivery performance analysis
+- Business insights generation
 
 ## Jules Tasks in Action
 
@@ -185,17 +209,56 @@ Jules keeps docs in sync:
 
 They work in parallel—you stay productive while Jules handles the tedious work.
 
-## API Endpoints (Coming Soon)
+## API Endpoints
 
+### Orders
 ```
-POST /api/orders              # Create order
-GET  /api/orders/:id          # Get order status
-GET  /api/inventory           # Get inventory levels
-POST /api/inventory/adjust    # Adjust stock
-GET  /api/kitchen/display     # Kitchen display
-GET  /api/analytics/waste     # Waste reports
-GET  /api/analytics/profit    # Profitability
+POST   /api/orders              # Create order
+GET    /api/orders              # List all orders
+GET    /api/orders/:orderId     # Get order status
+PATCH  /api/orders/:id/status   # Update status
 ```
+
+### Inventory
+```
+POST   /api/inventory/items          # Add inventory item
+GET    /api/inventory                # Get all items
+GET    /api/inventory/low-stock      # Get low stock items
+POST   /api/inventory/reserve        # Reserve items for order
+POST   /api/inventory/waste          # Record waste
+```
+
+### Kitchen Display
+```
+POST   /api/kitchen/orders             # Add order to kitchen
+GET    /api/kitchen/display            # Get kitchen queue (sorted by priority)
+PATCH  /api/kitchen/orders/:id/start   # Start cooking
+PATCH  /api/kitchen/orders/:id/ready   # Mark ready
+GET    /api/kitchen/metrics            # Get kitchen metrics
+```
+
+### Delivery
+```
+POST   /api/delivery/partners                    # Add delivery partner
+POST   /api/delivery                             # Create delivery
+POST   /api/delivery/:id/assign                  # Auto-assign partner
+PATCH  /api/delivery/:id/picked-up              # Mark picked up
+PATCH  /api/delivery/:id/in-transit             # Mark in transit
+PATCH  /api/delivery/:id/complete               # Complete delivery
+GET    /api/delivery/metrics                    # Get delivery metrics
+```
+
+### Analytics
+```
+GET    /api/analytics/daily/:date                # Get daily metrics
+GET    /api/analytics/range                      # Get metrics for date range
+GET    /api/analytics/summary                    # Get business summary
+GET    /api/analytics/items/top-selling          # Top selling items
+GET    /api/analytics/items/high-waste           # High waste items
+GET    /api/analytics/items/profitability        # Items by profitability
+```
+
+**Full documentation:** See [API_DOCUMENTATION.md](./API_DOCUMENTATION.md)
 
 ## Configuration
 
